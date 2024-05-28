@@ -1,0 +1,31 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="YZShopping2:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/YZShopping2_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="YZShopping2" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.28" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.11.4" />
+          <element id="library" level="project" name="Maven: com.alibaba:druid:1.1.6" />
+          <element id="library" level="project" name="Maven: commons-dbutils:commons-dbutils:1.7" />
+          <element id="library" level="project" name="Maven: c3p0:c3p0:0.9.1.2" />
+          <element id="library" level="project" name="Maven: redis.clients:jedis:2.9.0" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-pool2:2.4.2" />
+          <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.83" />
+          <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils-core:1.8.3" />
+          <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.1.1" />
+          <element id="library" level="project" name="Maven: javax.mail:mail:1.4" />
+          <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-dbcp2:2.5.0" />
+          <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
+          <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.2.1" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:1.4" />
+        </element>
+      </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/webapp" />
+    </root>
+  </artifact>
+</component>
