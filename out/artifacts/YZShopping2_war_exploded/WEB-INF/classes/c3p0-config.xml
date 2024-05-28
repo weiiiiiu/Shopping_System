@@ -2,7 +2,7 @@
 <c3p0-config>
 	<default-config>
 		<property name="user">root</property>
-		<property name="password">Zw123456!</property>
+		<property name="password">123456</property>
 		<property name="driverClass">com.mysql.cj.jdbc.Driver</property>
 		<property name="jdbcUrl">jdbc:mysql://127.0.0.1:3306/easyshop2?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC</property>
 	</default-config> 

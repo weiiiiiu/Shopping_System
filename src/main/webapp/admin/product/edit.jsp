@@ -1,14 +1,16 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <HTML>
 	<HEAD>
 		<meta http-equiv="Content-Language" content="zh-cn">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<LINK href="${pageContext.request.contextPath}/css/Style1.css" type="text/css" rel="stylesheet">
+		<script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js"></script>
 	</HEAD>
 	
 	<body>
 		<!--  -->
-		<form id="userAction_save_do" name="Form1" action="${pageContext.request.contextPath}/adminProduct_update.action" method="post" enctype="multipart/form-data">
+		<form id="userAction_save_do" name="Form1" action="${pageContext.request.contextPath}/product?type=updateProduct" method="post" enctype="multipart/form-data">
 			
 			<table cellSpacing="1" cellPadding="5" width="100%" align="center" bgColor="#eeeeee" style="border: 1px solid #8ba7e3" border="0">
 				<tr>
@@ -24,7 +26,7 @@
 						商品名称：
 					</td>
 					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="pname" value="" id="userAction_save_do_logonName" class="bg"/>
+						<input type="text" name="pname" value="${product.pname}" id="userAction_save_do_logonName" class="bg"/>
 					</td>
 					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
 						是否热门：
@@ -32,8 +34,8 @@
 					<td class="ta_01" bgColor="#ffffff">
 						
 						<select name="is_hot">
-							<option value="1">是</option>
-							<option value="0">否</option>
+							<option value="1"<c:if test="${product.is_hot==1}">selected</c:if> >是</option>
+							<option value="0"<c:if test="${product.is_hot==0}">selected</c:if> >否</option>
 						</select>
 					</td>
 				</tr>
@@ -42,13 +44,13 @@
 						市场价格：
 					</td>
 					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="market_price" value="" id="userAction_save_do_logonName" class="bg"/>
+						<input type="text" name="market_price" value="${product.market_price}" id="userAction_save_do_logonName" class="bg"/>
 					</td>
 					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
 						商城价格：
 					</td>
 					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="shop_price" value="" id="userAction_save_do_logonName" class="bg"/>
+						<input type="text" name="shop_price" value="${product.shop_price}" id="userAction_save_do_logonName" class="bg"/>
 					</td>
 				</tr>
 				<tr>
@@ -56,6 +58,9 @@
 						商品图片：
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
+						<c:if test="${product.pimage!=null || product.pimage!=''}">
+							<img src="${pageContext.request.contextPath}/${product.pimage}">
+						</c:if>
 						<input type="file" name="upload" />
 					</td>
 				</tr>
@@ -64,10 +69,8 @@
 						所属分类：
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<select name="categorySecond.csid">
-							<option value="">大型电器</option>
-							<option value="">手机数码</option>
-							<option value="">衣帽箱包</option>
+						<select name="cid" class="cid">
+
 						</select>
 					</td>
 				</tr>
@@ -94,7 +97,26 @@
 						<span id="Label1"></span>
 					</td>
 				</tr>
+				<input type="hidden" value="${product.pid}" name="pid">
 			</table>
 		</form>
 	</body>
 </HTML>
+<script>
+	CategoryList();
+	function CategoryList(){
+		$.get("${pageContext.request.contextPath}/category?type=list",function (data){
+			if(data.length>0){
+				for (var i=0;i<data.length;i++){
+					var html="";
+					if(data[i].cid==${product.cid}){
+						html="<option selected value=\""+data[i].cid+"\">" +data[i].cname+"</option>";
+					}else{
+						html="<option value=\""+data[i].cid+"\">"+data[i].cname+"</option>";
+					}
+					$(".cid").append(html);
+				}
+			}
+		},"json")
+	}
+</script>

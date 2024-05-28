@@ -31,15 +31,12 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">首页</a>
+				<a class="navbar-brand" href="${pageContext.request.contextPath}/index">首页</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="product_list.htm">手机数码<span class="sr-only">(current)</span></a></li>
-					<li><a href="#">电脑办公</a></li>
-					<li><a href="#">电脑办公</a></li>
-					<li><a href="#">电脑办公</a></li>
+
 				</ul>
 				<form class="navbar-form navbar-right" role="search">
 					<div class="form-group">
@@ -51,3 +48,16 @@
 		</div>
 	</nav>
 </div>
+	<script>
+		CategoryList();
+		function CategoryList(){
+			$.get("${pageContext.request.contextPath}/category?type=list",function (data){
+				if(data.length>0){
+					for (var i=0;i<data.length;i++){
+						var html="<li><a href=\"#\">"+data[i].cname+"</a></li>";
+						$(".navbar-nav").append(html);
+					}
+				}
+			},"json")
+		}
+	</script>

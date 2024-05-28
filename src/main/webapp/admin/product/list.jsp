@@ -80,7 +80,7 @@
 							+"<td style=\"CURSOR: hand; HEIGHT: 22px\" align=\"center\" width=\"17%\">"+data[i].pname+"</td>"
 							+"<td style=\"CURSOR: hand; HEIGHT: 22px\" align=\"center\" width=\"17%\">"+data[i].shop_price+"</td>"
 							+"<td style=\"CURSOR: hand; HEIGHT: 22px\" align=\"center\" width=\"17%\">"+isHot+"</td>"
-							+"<td align=\"center\" style=\"HEIGHT: 22px\"><a href=\"${ pageContext.request.contextPath }/admin/product/edit.jsp\">"
+							+"<td align=\"center\" style=\"HEIGHT: 22px\"><a href=\"${pageContext.request.contextPath}/product?type=update&pid="+data[i].pid+"\">"
 							+"<img src=\"${pageContext.request.contextPath}/images/i_edit.gif\" border=\"0\" style=\"CURSOR: hand\"> </a></td>"
 							+"<td align=\"center\" style=\"HEIGHT: 22px\"><a href=\"javascript:void(0)\"onclick=\"del('"+data[i].pid+"')\"> "
 							+"<img src=\"${pageContext.request.contextPath}/images/i_del.gif\" width=\"16\" height=\"16\" border=\"0\" style=\"CURSOR: hand\"></a></td>";
@@ -98,10 +98,10 @@
 					list();//删除成功，更新页面
 				}
 			})
-
 		}
 
 	}
+
 
 </script>
 </body>

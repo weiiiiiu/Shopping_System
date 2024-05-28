@@ -14,6 +14,17 @@ public class Product {
     private int pflag;//是否上下架
     private Category category;
 
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
+    private String cid;
+
+
     public String getPid() {
         return pid;
     }

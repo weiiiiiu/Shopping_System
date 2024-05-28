@@ -12,5 +12,8 @@ public interface ProductService {
 
     boolean addProduct(Product product);//添加商品
     boolean delProduct(String pid);
+    Product findProductById(String pid);
+    boolean updateProduct(Product product);
+
 
 }

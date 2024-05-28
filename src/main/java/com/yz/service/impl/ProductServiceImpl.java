@@ -64,4 +64,26 @@ public class ProductServiceImpl implements ProductService {
         }
         return count>0;
     }
+
+    @Override
+    public Product findProductById(String pid) {
+        Product product=null;
+        try {
+            product=productDao.findProductById(pid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return product;
+    }
+
+    @Override
+    public boolean updateProduct(Product product) {
+        int count=0;
+        try {
+            count=productDao.updateProduct(product);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count>0;
+    }
 }

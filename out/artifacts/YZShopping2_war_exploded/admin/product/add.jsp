@@ -4,6 +4,7 @@
 		<meta http-equiv="Content-Language" content="zh-cn">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<LINK href="${pageContext.request.contextPath}/css/Style1.css" type="text/css" rel="stylesheet">
+		<script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js"></script>
 	</HEAD>
 	
 	<body>
@@ -64,10 +65,8 @@
 						所属分类：
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<select name="cid">
-							<option value="1">大型电器</option>
-							<option value="2">手机数码</option>
-							<option value="3">衣帽箱包</option>
+						<select name="cid" class="cid">
+
 						</select>
 					</td>
 				</tr>
@@ -98,3 +97,16 @@
 		</form>
 	</body>
 </HTML>
+<script>
+	CategoryList();
+	function CategoryList(){
+		$.get("${pageContext.request.contextPath}/category?type=list",function (data){
+			if(data.length>0){
+				for (var i=0;i<data.length;i++){
+					var html="<option value=\""+data[i].cid+"\">"+data[i].cname+"</option>";
+					$(".cid").append(html);
+				}
+			}
+		},"json")
+	}
+</script>

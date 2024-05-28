@@ -35,12 +35,86 @@ public class ProductController extends HttpServlet {
             add(request,response);
         }else if("del".equals(type)){
            del(request,response);
+        } else if ("update".equals(type)) {
+            update(request,response);
+        } else if ("updateProduct".equals(type)) {
+            updateProduct(request,response);
+
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
+    }
+    protected void updateProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //根据id修改商品信息
+        try {
+            // 获取表单各元素值，封装成Product实体，插入到底层数据
+            // 1.创建工厂
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            // 2.创建核心类
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            Product product = new Product();
+            Map<String, Object> map = new HashMap<String,Object>();
+            // 3.解析request的内容
+            List<FileItem> parseRequest = upload.parseRequest(request);
+            //遍历集合
+            for(FileItem item : parseRequest){
+                //判断是不是普通表单
+                if(item.isFormField())
+                {
+                    //是普通表单,获取表单中name属性值，获取表单对应的输入值
+                    String fieldName = item.getFieldName();
+                    String fieldValue = item.getString("utf-8");
+                    //放入map集合中
+                    map.put(fieldName, fieldValue);
+                }else{
+                    //文件上传
+                    //获取文件名，文件内容，写入服务器
+                    String fileName = item.getName();
+                    //文件上传的路径
+                    String path =this.getServletContext().getRealPath("products");
+                    InputStream in = item.getInputStream();
+                    OutputStream out = new FileOutputStream(path+"/" + fileName);
+                    IOUtils.copy(in, out);
+                    in.close();
+                    out.close();
+                    //文件的路径放入map集合中
+                    map.put("pimage","products"+ File.separator + fileName);
+                }
+            }
+            //将map中的属性映射到product实体中
+            BeanUtils.populate(product, map);
+            //product.setPid(UUID.randomUUID().toString());
+            //product.setPdate(new Date());
+            //product.setPflag(0);
+            Category c = new Category();
+            c.setCid(map.get("cid").toString());
+            product.setCategory(c);
+            //保存商品
+            boolean flag=productService.updateProduct(product);
+            //保存成功后跳转到列表页，列表页可以直接看新增的数据
+            if(flag){
+                response.sendRedirect(request.getContextPath()+"/admin/product/list.jsp");
+            }
+
+        } catch (FileUploadException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String pid=request.getParameter("pid");
+        //根据商品id查询商品
+        Product product = productService.findProductById(pid);
+        request.setAttribute("product",product);
+        request.getRequestDispatcher("/admin/product/edit.jsp").forward(request,response);
+
     }
     protected void del(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pid = request.getParameter("pid");
@@ -113,7 +187,5 @@ public class ProductController extends HttpServlet {
         {
             e.printStackTrace();
         }
-
-
     }
 }

@@ -3,6 +3,7 @@ package com.yz.dao.impl;
 import com.yz.dao.ProductDao;
 import com.yz.entity.Product;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import util.DataSourceUtils;
 
@@ -47,5 +48,19 @@ public class ProductDaoImpl implements ProductDao {
     public int delProduct(String pid) throws SQLException {
         String sql = "delete from product where pid=?";
         return qr.update(sql,pid);
+    }
+
+    @Override
+    public Product findProductById(String pid) throws SQLException {
+        String sql = "select * from product where pid=?";
+        return qr.query(sql,new BeanHandler<Product>(Product.class),pid);
+    }
+
+    @Override
+    public int updateProduct(Product product) throws SQLException {
+        String sql = "update product set pname=?,market_price=?,shop_price=?,pimage=?,is_hot=?,cid=? where pid=?";
+        int count = qr.update(sql,product.getPname(),product.getMarket_price(),product.getShop_price(),
+                product.getPimage(),product.getIs_hot(),product.getCategory().getCid(),product.getPid());
+        return count;
     }
 }
