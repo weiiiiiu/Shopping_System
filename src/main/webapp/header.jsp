@@ -54,7 +54,7 @@
 			$.get("${pageContext.request.contextPath}/category?type=list",function (data){
 				if(data.length>0){
 					for (var i=0;i<data.length;i++){
-						var html="<li><a href=\"#\">"+data[i].cname+"</a></li>";
+						var html="<li><a href=\"${pageContext.request.contextPath}/product?type=findByProduct&cid="+data[i].cid+"\">"+data[i].cname+"</a></li>";
 						$(".navbar-nav").append(html);
 					}
 				}

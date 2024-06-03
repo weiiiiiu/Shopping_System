@@ -5,6 +5,7 @@ import com.yz.entity.Product;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import util.DataSourceUtils;
 
 import java.sql.SQLException;
@@ -62,5 +63,22 @@ public class ProductDaoImpl implements ProductDao {
         int count = qr.update(sql,product.getPname(),product.getMarket_price(),product.getShop_price(),
                 product.getPimage(),product.getIs_hot(),product.getCategory().getCid(),product.getPid());
         return count;
+    }
+
+    @Override
+    public int countProduct(String cid) throws SQLException {
+        String sql = "select count(cid) from product where cid=?";
+        //int count = 0;
+        //count= qr.query(sql,new BeanHandler<Integer>(Integer.class),cid);
+        Long row = (Long) qr.query(sql,new ScalarHandler(),cid);
+        return Math.toIntExact(row);//long类型转int类型
+    }
+
+    @Override
+    public List<Product> finfPageProductList(int start, int count, String cid) throws SQLException {
+        String sql="select * from product where cid=?limit ?,?";
+        List<Product> list=null;
+        list=qr.query(sql,new BeanListHandler<Product>(Product.class),cid,start,count);
+        return list;
     }
 }

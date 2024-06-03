@@ -2,6 +2,7 @@ package com.yz.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.yz.entity.Category;
+import com.yz.entity.Page;
 import com.yz.entity.Product;
 import com.yz.service.ProductService;
 import com.yz.service.impl.ProductServiceImpl;
@@ -39,13 +40,30 @@ public class ProductController extends HttpServlet {
             update(request,response);
         } else if ("updateProduct".equals(type)) {
             updateProduct(request,response);
-
+        } else if ("productByCid".equals(type)) {
+            productByCid(request,response);
+        } else if ("findByProduct".equals(type)) {
+            findByProduct(request,response);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
+    }
+    protected void productByCid(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String cid = request.getParameter("cid");
+        String page = request.getParameter("page");
+        int pageNo = page==""||page==null?1:Integer.parseInt(page);
+        Page<Product> pageList = productService.findPage(pageNo,cid);
+        response.setContentType("application/json;charset=utf-8");
+        String json = JSON.toJSONString(pageList);
+        response.getWriter().write(json);
+    }
+    protected void findByProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String cid = request.getParameter("cid");
+        request.setAttribute("cid",cid);
+        request.getRequestDispatcher("/product_list.jsp").forward(request,response);
     }
     protected void updateProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //根据id修改商品信息

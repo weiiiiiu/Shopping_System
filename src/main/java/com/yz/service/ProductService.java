@@ -1,5 +1,6 @@
 package com.yz.service;
 
+import com.yz.entity.Page;
 import com.yz.entity.Product;
 
 import java.sql.SQLException;
@@ -15,5 +16,5 @@ public interface ProductService {
     Product findProductById(String pid);
     boolean updateProduct(Product product);
 
-
+    Page<Product> findPage(int pageNo, String cid);
 }

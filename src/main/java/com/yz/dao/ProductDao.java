@@ -16,4 +16,8 @@ public interface ProductDao {
     Product findProductById(String pid) throws SQLException;
 
     int updateProduct(Product product) throws SQLException;
+
+    int countProduct(String cid) throws SQLException;
+
+    List<Product> finfPageProductList(int start,int count,String cid) throws SQLException;
 }

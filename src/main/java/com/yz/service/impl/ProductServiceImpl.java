@@ -2,6 +2,7 @@ package com.yz.service.impl;
 
 import com.yz.dao.ProductDao;
 import com.yz.dao.impl.ProductDaoImpl;
+import com.yz.entity.Page;
 import com.yz.entity.Product;
 import com.yz.service.ProductService;
 
@@ -85,5 +86,35 @@ public class ProductServiceImpl implements ProductService {
             throw new RuntimeException(e);
         }
         return count>0;
+    }
+
+    @Override
+    public Page<Product> findPage(int pageNo, String cid) {
+        /*分页；
+        *当前页：pageNo 1
+        * 当前页大小：pageSize 18
+        * 当前页记录数：totalCount 101 SELECT count(pid) FROM product WHERE cid=1;
+        * 当前页总记录数：pageCount 6
+        * */
+        Page<Product> page=new Page<>();
+        page.setPageSize(18);
+        page.setPageNo(pageNo);
+        int totalCount=0;
+        try {
+            totalCount=productDao.countProduct(cid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        page.setTotalCount(totalCount);
+        int pageCount=totalCount%page.getPageSize()==0?totalCount/page.getPageSize():totalCount/page.getPageSize()+1;
+        page.setPageCount(pageCount);
+        List<Product> list=null;
+        try {
+            list=productDao.finfPageProductList((pageNo-1)*page.getPageSize(),page.getPageSize(),cid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        page.setList(list);
+        return page;
     }
 }
