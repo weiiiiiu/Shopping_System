@@ -41,9 +41,7 @@ public class UserController extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        /*if(flag){
-            response.sendRedirect(request.getContextPath()+"/login.jsp");
-        }*/
+
         response.getWriter().print(flag);
     }
 }

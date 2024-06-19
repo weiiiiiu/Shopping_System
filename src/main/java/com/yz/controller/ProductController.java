@@ -27,6 +27,14 @@ import java.util.*;
 public class ProductController extends HttpServlet {
     ProductService productService = new ProductServiceImpl();
     @Override
+    public void init() throws ServletException {
+        super.init();
+        // 获取热门商品列表
+        List<Product> hotProductList = productService.findHotProductList();
+        // 将热门商品列表添加到Servlet的上下文属性中
+        getServletContext().setAttribute("hotProductList", hotProductList);
+    }
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String type = request.getParameter("type");
         if("list".equals(type)){

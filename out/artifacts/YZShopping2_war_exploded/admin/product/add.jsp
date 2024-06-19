@@ -6,7 +6,7 @@
 		<LINK href="${pageContext.request.contextPath}/css/Style1.css" type="text/css" rel="stylesheet">
 		<script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js"></script>
 	</HEAD>
-	
+
 	<body>
 		<!--  -->
 		<form id="userAction_save_do" name="Form1" action="${pageContext.request.contextPath}/product?type=add"

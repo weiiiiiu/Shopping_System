@@ -51,19 +51,8 @@ body {
 	<!--分页 -->
 	<div style="width: 380px; margin: 0 auto; margin-top: 50px;">
 		<ul class="pagination" style="text-align: center; margin-top: 10px;">
-			<li class="disabled"><a href="#" aria-label="Previous"><span
-					aria-hidden="true">&laquo;</span></a></li>
-			<li class="active"><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-			<li><a href="#">6</a></li>
-			<li><a href="#">7</a></li>
-			<li><a href="#">8</a></li>
-			<li><a href="#">9</a></li>
-			<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-			</a></li>
+
+
 		</ul>
 	</div>
 	<!-- 分页结束 -->
@@ -96,6 +85,7 @@ body {
 	list(1);
 	function list(page){
 		$.get("${pageContext.request.contextPath}/product?type=productByCid&cid=${cid}&page="+page,function (data){
+			$("#content").html("");
 			if (data.list.length>0){
 				for (var i=0;i<data.list.length;i++){
 					var html="<div class=\"col-md-2\">";
@@ -110,7 +100,34 @@ body {
 					html+="</p>";
 					html+="</div>";
 					$("#content").append(html);
+
 				}
+				var page="";
+				//实现分页
+				if(data.pageNo==1){
+					//如果是第一页，点击上一页，无反映
+					page+="<li class=\"disabled\"><a href=\"#\" aria-label=\"Previous\"><span aria-hidden=\"true\">&laquo;</span></a></li>";
+				}else{
+					//如果不是第一页，点击上一页，当前页-1即上一页
+					page+="<li><a href=\"javascript:list("+(data.pageNo-1)+")\" aria-label=\"Previous\"><span aria-hidden=\"true\">&laquo;</span></a></li>";
+				}
+				//页码
+				for(var i=1;i<=data.pageCount;i++){
+					if(data.pageNo==i){
+						page+="<li class=\"active\"><a href=\"javascript:list("+i+")\">"+i+"</a></li>";
+					}else{
+						page+="<li><a href=\"javascript:list("+i+")\">"+i+"</a></li>";
+					}
+				}
+				//下一页
+				if(data.pageNo==data.pageCount){
+					//如果当前页是最后一页，点击下一页，无反映
+					page+="<li class=\"disabled\"><a href=\"#\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span></a></li>";
+				}else{
+					//如果不是最后一页，点击下一页，当前页+1即下一页
+					page+="<li> <a href=\"javascript:list("+(data.pageNo+1)+")\" aria-label=\"Next\"> <span aria-hidden=\"true\">&raquo;</span></a> </li>";
+				}
+				$(".pagination").html(page);
 			}
 		},"json")
 	}
